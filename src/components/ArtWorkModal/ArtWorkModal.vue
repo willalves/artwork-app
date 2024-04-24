@@ -15,12 +15,8 @@ const emit = defineEmits(["close-modal"]);
 
 const favoritesStore = useFavoritesStore();
 const clickTarget = ref(null);
-const favorites = favoritesStore.favorites;
 
 const { fetchArtworkById, artWorkSingle } = useArtwork(props.modalData.objectNumber);
-
-console.log("favorites", favorites);
-console.log("artWorkSingle", artWorkSingle);
 
 const closeModal = () => {
   artWorkSingle.value = null;

@@ -49,7 +49,7 @@ onMounted(() => {
               {{ truncateString(fav.title) }}
             </a>
             <a class="remove-favorite" @click="removeFromFavorites(fav)">
-              <Trash2 size="16" />
+              <Trash2 :size="16" />
             </a>
           </li>
         </ul>
