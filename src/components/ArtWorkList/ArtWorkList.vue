@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import ArtWorkCard from "@/components/ArtWorkCard/ArtWorkCard.vue";
+import ArtWorkModal from "@/components/ArtWorkModal/ArtWorkModal.vue";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton.vue";
 import SearchInput from "@/components/SearchInput/SearchInput.vue";
 
@@ -10,9 +11,16 @@ const currentPage = ref(1);
 const isLoading = ref(false);
 const loadingMore = ref(false);
 const isEmpty = ref(false);
+const modalData = ref(null);
+const isOpen = ref(false);
 
 const loadMore = () => {
   currentPage.value++;
+};
+
+const closeModal = () => {
+  modalData.value = null;
+  isOpen.value = false;
 };
 
 const fetchArtwork = async () => {
@@ -73,6 +81,12 @@ watch(currentPage, fetchArtwork);
         </button>
       </div>
     </div>
+    <ArtWorkModal
+      v-if="modalData"
+      :isOpen="isOpen"
+      :modalData="modalData"
+      @close-modal="closeModal"
+    />
   </div>
 </template>
 
