@@ -1,0 +1,30 @@
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  width: fit-content;
+  padding: 0 10px;
+
+  input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 50px;
+    flex: 1;
+  }
+
+  .search-icon {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .clear-search {
+    cursor: pointer;
+    color: #ff0000;
+    font-size: 1.2rem;
+    transform: rotate(45deg);
+  }
+}
