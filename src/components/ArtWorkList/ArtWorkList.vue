@@ -1,16 +1,14 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
-import axios from "axios";
 import ArtWorkCard from "@/components/ArtWorkCard/ArtWorkCard.vue";
 import ArtWorkModal from "@/components/ArtWorkModal/ArtWorkModal.vue";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton.vue";
 import SearchInput from "@/components/SearchInput/SearchInput.vue";
+import { useArtwork } from "@/composables/useArtwork.js";
 
-const artWorks = ref([]);
-const currentPage = ref(1);
-const isLoading = ref(false);
-const loadingMore = ref(false);
-const isEmpty = ref(false);
+const { fetchArtwork, searchArtwork, artWorks, currentPage, isLoading, loadingMore, isEmpty } =
+  useArtwork();
+
 const modalData = ref(null);
 const isOpen = ref(false);
 
@@ -21,41 +19,6 @@ const loadMore = () => {
 const closeModal = () => {
   modalData.value = null;
   isOpen.value = false;
-};
-
-const fetchArtwork = async () => {
-  isLoading.value = artWorks.value.length ? false : true;
-  loadingMore.value = true;
-  try {
-    const response = await axios.get(
-      `https://www.rijksmuseum.nl/api/en/collection?key=xTQEfbFE&ps=12&p=${currentPage.value}`
-    );
-    artWorks.value = [...artWorks.value, ...response.data.artObjects];
-  } catch (error) {
-    console.log("Error fetching artworks: ", error);
-  } finally {
-    isLoading.value = false;
-    loadingMore.value = false;
-  }
-};
-
-const searchArtwork = async (searchInput) => {
-  isLoading.value = true;
-  isEmpty.value = false;
-  try {
-    const response = await axios.get(
-      `https://www.rijksmuseum.nl/api/en/collection?key=xTQEfbFE&ps=12&p=${currentPage.value}&q=${searchInput.value}`
-    );
-    artWorks.value = response.data.artObjects;
-
-    if (!artWorks.value.length) {
-      isEmpty.value = true;
-    }
-  } catch (error) {
-    console.log("Error searching artworks: ", error);
-  } finally {
-    isLoading.value = false;
-  }
 };
 
 onMounted(() => {

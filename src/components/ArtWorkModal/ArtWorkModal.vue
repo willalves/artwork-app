@@ -2,7 +2,7 @@
 import { onClickOutside } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
-import axios from "axios";
+import { useArtwork } from "@/composables/useArtwork.js";
 import { X } from "lucide-vue-next";
 
 const props = defineProps({
@@ -12,9 +12,9 @@ const props = defineProps({
 
 const emit = defineEmits(["close-modal"]);
 
+const { fetchArtworkById, artWorkSingle } = useArtwork(props.modalData.objectNumber);
+
 const clickTarget = ref(null);
-const artWorkId = props.modalData.id;
-const artWorkSingle = ref(null);
 
 const closeModal = () => {
   artWorkSingle.value = null;
@@ -22,18 +22,6 @@ const closeModal = () => {
 };
 
 onClickOutside(clickTarget, closeModal);
-
-const fetchArtworkById = async () => {
-  try {
-    const response = await axios.get(
-      `https://www.rijksmuseum.nl/api/nl/collection/${artWorkId}?key=xTQEfbFE`
-    );
-    artWorkSingle.value = response.data.artObject;
-  } catch (error) {
-    console.log("Error fetching data:", error);
-    return null;
-  }
-};
 
 onMounted(() => {
   fetchArtworkById();
