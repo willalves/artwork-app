@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import ArtWorkCard from "@/components/ArtWorkCard/ArtWorkCard.vue";
+import LoadingSkeleton from "@/components/ui/LoadingSkeleton.vue";
 
 const artWorks = ref([]);
 const currentPage = ref(1);
@@ -37,7 +38,8 @@ watch(currentPage, fetchArtwork);
 
 <template>
   <div>
-    <div v-if="artWorks.length" class="list-wrapper">
+    <LoadingSkeleton v-if="isLoading" />
+    <div v-else-if="artWorks.length" class="list-wrapper">
       <div class="artWorks-list">
         <ArtWorkCard v-for="artWork in artWorks" :key="artWork.id" :artWork="artWork" />
       </div>
