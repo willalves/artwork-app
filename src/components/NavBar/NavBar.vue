@@ -1,11 +1,10 @@
 <script setup>
 import { Star, Trash2 } from "lucide-vue-next";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useFavoritesStore } from "@/stores/favorites.js";
 import { onClickOutside } from "@vueuse/core";
 
 const favoritesStore = useFavoritesStore();
-favoritesStore.loadFavorites();
 
 const favorites = favoritesStore.favorites;
 const favoritesDropdown = ref(false);
@@ -27,6 +26,10 @@ const truncateString = (str) => {
 const favoritesCount = computed(() => favoritesStore.favorites.length);
 
 onClickOutside(favoritesDropdownTarget, toggleFavoritesDropdown);
+
+onMounted(() => {
+  favoritesStore.loadFavorites();
+});
 </script>
 
 <template>
