@@ -3,9 +3,23 @@ import { useRoute } from "vue-router";
 import { useArtwork } from "@/composables/useArtwork.js";
 import { onMounted } from "vue";
 import { ArrowLeft } from "lucide-vue-next";
+import { useFavoritesStore } from "@/stores/favorites.js";
 
 const route = useRoute();
 const { fetchArtworkById, artWorkSingle } = useArtwork(route.params.id);
+const favoritesStore = useFavoritesStore();
+
+const addToFavorites = (item) => {
+  favoritesStore.addToFavorites(item);
+};
+
+const removeFromFavorites = (item) => {
+  favoritesStore.removeFromFavorites(item);
+};
+
+const isFavorite = (item) => {
+  return favoritesStore?.favorites?.some((fav) => fav.id === item.id);
+};
 
 onMounted(() => {
   fetchArtworkById();
@@ -33,7 +47,16 @@ onMounted(() => {
           </div>
         </div>
         <div class="content-actions">
-          <button class="add-favorites">Add to favorites</button>
+          <button
+            class="add-favorites"
+            @click="addToFavorites(artWorkSingle)"
+            v-if="!isFavorite(artWorkSingle)"
+          >
+            Add to favorites
+          </button>
+          <button class="add-favorites" @click="removeFromFavorites(artWorkSingle)" v-else>
+            Remove from favorites
+          </button>
         </div>
       </div>
     </div>
@@ -42,5 +65,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "./ArtWorkViewStyles.scss";
+@import "./ArtWorkView.scss";
 </style>

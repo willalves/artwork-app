@@ -3,6 +3,7 @@ import { onClickOutside } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useArtwork } from "@/composables/useArtwork.js";
+import { useFavoritesStore } from "@/stores/favorites.js";
 import { X } from "lucide-vue-next";
 
 const props = defineProps({
@@ -12,9 +13,14 @@ const props = defineProps({
 
 const emit = defineEmits(["close-modal"]);
 
+const favoritesStore = useFavoritesStore();
+const clickTarget = ref(null);
+const favorites = favoritesStore.favorites;
+
 const { fetchArtworkById, artWorkSingle } = useArtwork(props.modalData.objectNumber);
 
-const clickTarget = ref(null);
+console.log("favorites", favorites);
+console.log("artWorkSingle", artWorkSingle);
 
 const closeModal = () => {
   artWorkSingle.value = null;
@@ -23,8 +29,22 @@ const closeModal = () => {
 
 onClickOutside(clickTarget, closeModal);
 
+const addToFavorites = (item) => {
+  favoritesStore.addToFavorites(item);
+};
+
+const removeFromFavorites = (item) => {
+  favoritesStore.removeFromFavorites(item);
+};
+
+const isFavorite = (item) => {
+  return favoritesStore?.favorites?.some((fav) => fav.id === item.id);
+};
+
 onMounted(() => {
   fetchArtworkById();
+  favoritesStore.loadFavorites();
+  isFavorite(artWorkSingle);
 });
 </script>
 
@@ -44,7 +64,16 @@ onMounted(() => {
         </div>
       </div>
       <div class="artwork-actions">
-        <button class="add-favorites">Add to favorites</button>
+        <button
+          class="add-favorites"
+          @click="addToFavorites(artWorkSingle)"
+          v-if="!isFavorite(artWorkSingle)"
+        >
+          Add to favorites
+        </button>
+        <button class="add-favorites" @click="removeFromFavorites(artWorkSingle)" v-else>
+          Remove from favorites
+        </button>
         <RouterLink :to="{ name: 'artwork', params: { id: artWorkSingle.objectNumber } }">
           View Details
         </RouterLink>

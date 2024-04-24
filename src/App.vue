@@ -1,11 +1,14 @@
 <script setup>
 import { RouterView } from "vue-router";
 import NavBar from "@/components/NavBar/NavBar.vue";
+import { ref } from "vue";
+
+const favoritesCount = ref(0);
 </script>
 
 <template>
   <header>
-    <NavBar />
+    <NavBar :favorites-count="favoritesCount" />
   </header>
 
   <div class="page-wrapper">
@@ -13,7 +16,7 @@ import NavBar from "@/components/NavBar/NavBar.vue";
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .page-wrapper {
   margin-top: 60px;
 }

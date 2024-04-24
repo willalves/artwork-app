@@ -12,6 +12,11 @@ const { fetchArtwork, searchArtwork, artWorks, currentPage, isLoading, loadingMo
 const modalData = ref(null);
 const isOpen = ref(false);
 
+const openModal = (data) => {
+  modalData.value = data;
+  isOpen.value = true;
+};
+
 const loadMore = () => {
   currentPage.value++;
 };
@@ -35,7 +40,12 @@ watch(currentPage, fetchArtwork);
     <p v-else-if="isEmpty">No Artwork was found.</p>
     <div v-else-if="artWorks.length" class="list-wrapper">
       <div class="artWorks-list">
-        <ArtWorkCard v-for="artWork in artWorks" :key="artWork.id" :artWork="artWork" />
+        <ArtWorkCard
+          v-for="artWork in artWorks"
+          :key="artWork.id"
+          :artWork="artWork"
+          @open-modal="openModal(artWork)"
+        />
       </div>
       <div class="load-more">
         <button @click="loadMore">
