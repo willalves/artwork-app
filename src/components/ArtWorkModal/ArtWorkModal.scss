@@ -1,0 +1,95 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  overflow-y: auto;
+
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    height: auto;
+    width: 70vh;
+
+    .close-block {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            color: #4f46e5;
+          }
+        }
+      }
+    }
+
+    .content-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+
+      img {
+        width: 30%;
+        height: 30%;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    .artwork-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      margin-top: 20px;
+
+      .add-favorites {
+        padding: 10px 20px;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      a {
+        color: #4f46e5;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    align-items: flex-end;
+    padding-bottom: 20px;
+    .modal {
+      width: 90%;
+
+      .content-info {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,17 +1,23 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from "vue-router";
+import NavBar from "@/components/NavBar/NavBar.vue";
+import { ref } from "vue";
+
+const favoritesCount = ref(0);
 </script>
 
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
+    <NavBar :favorites-count="favoritesCount" />
   </header>
 
-  <RouterView />
+  <div class="page-wrapper">
+    <RouterView />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.page-wrapper {
+  margin-top: 60px;
+}
+</style>
