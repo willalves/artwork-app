@@ -1,17 +1,20 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from "vue-router";
+import NavBar from "@/components/NavBar/NavBar.vue";
 </script>
 
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
+    <NavBar />
   </header>
 
-  <RouterView />
+  <div class="page-wrapper">
+    <RouterView />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.page-wrapper {
+  margin-top: 60px;
+}
+</style>
